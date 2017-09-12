@@ -7,3 +7,5 @@
 
 ### 사용 JS-PlugIn
 + annyang.js
+
+by Korfresh (korfresh86@gmail.com)
