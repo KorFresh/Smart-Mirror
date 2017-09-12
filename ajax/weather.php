@@ -14,7 +14,10 @@ else if($_POST['area'] == '서울')
 else
 	$location = array('부산', '금정구', '서동');
 
-$url = "http://apis.skplanetx.com/weather/current/minutely?version=1&lat=&lon=&appKey=0fd05c12-d499-3376-a2b6-7123e34ff376&city={$location[0]}&county={$location[1]}&village={$location[2]}";
+// API 키
+$key = "0fd05c12-d499-3376-a2b6-7123e34ff376";
+
+$url = "http://apis.skplanetx.com/weather/current/minutely?version=1&lat=&lon=&appKey={$key}&city={$location[0]}&county={$location[1]}&village={$location[2]}";
 $header[] = "Accept: application/json";
 $header[] = "Accept-Encoding: gzip, deflate, sdch";
 $s = curl_init();
