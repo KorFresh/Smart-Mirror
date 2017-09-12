@@ -1,6 +1,8 @@
 # Smart-Mirror
 
-### 필요한모듈
+#### Web 기반으로 제작되어 JS/jQuery 환경에서 정상 작동 합니다
+
+### 필요한모듈 (PHP기반 API를 작동시키기 위함)
 + php5 또는 php5.6
 + php5-curl 또는 php5.6-curl
 + apachectl2
