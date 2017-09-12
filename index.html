@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>금정전자공고 스마트미러 실습</title>
+    <script src="./js/annyang.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=QdjhjVxtSjdhCw7i39f3"></script>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+</head>
+<body>
+
+<div id="container">
+    <h1>금정전자기계공고</h1>
+    <h2>Smart-Mirror</h2>
+    <div id="timezone"></div>
+
+    <table>
+        <tr>
+            <td id="news"><h3>뉴스</h3></td>
+            <td id="weather"><h3>날씨</h3></td>
+        </tr>
+        <tr id="maps">
+            <td colspan="2">
+                <h3>지도</h3>
+                <div id="map"></div>
+            </td>
+        </tr>
+        <tr id="cmd">
+            <td colspan="2" id="cmds">
+                <h3>사용가능 명령어</h3>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<script>
+    var form = [];
+    var apiPath = "./ajax/";
+    form[0]		= "<li>{title}</li>";
+    form[1]	= "<li>지역: {area}</li><li>온도: {temperature}</li><li>날씨: {weather}</li><li>풍속: {windsp}</li>";
+
+    $(document).ready(function(){
+
+        news();
+        weather('부산');
+
+
+        //  시계
+        setInterval(function(){
+			var d = new Date();
+			var week = ['일', '월', '화', '수', '목', '금', '토'];
+			var now = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' (' + week[d.getDay()] + ')';
+            $('#timezone').text(now)
+			$('#timezone').append("<br/><li id='now'>" + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + "</li>");
+        }, 1000);
+
+        //현재 좌표
+        var location = [];
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            location[0] = 35.2210185;
+            location[1] = 129.1068864;
+        }
+        location[0] = 35.2210185;
+        location[1] = 129.1068864;
+
+        function showPosition(position) {
+            location[0] = position.coords.latitude;
+            location[1] = position.coords.longitude;
+        }
+
+        //지도
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(location[0], location[1]),
+            zoom: 11
+        });
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(location[0], location[1]),
+            map: map
+        })
+        $('#maps').hide();
+        //$('body').hide();
+    });
+
+    // 뉴스
+    function news(){
+        $.ajax({
+            url: apiPath + 'news.php',
+            type: 'POST',
+            dataType:'json',
+            success: function(e){
+                $('#news').html('<h3>뉴스</h3>');
+                $.each(e, function(k,v){
+                    if(k == 3) return false;
+                    $('#news').append(form[0].replace('{title}', v.title));
+                })
+            }
+        })
+    }
+
+    function weather(area){
+        //날씨
+        $.ajax({
+            url: apiPath + 'weather.php',
+            type: 'POST',
+            dataType:'json',
+            data: 'area=' + area,
+            success: function(e){
+
+                $('#weather').html('<h3>날씨</h3>');
+
+                $('#weather').append(
+                    form[1]
+                        .replace('{area}', e[0].station.name)
+                        .replace('{temperature}', e[0].temperature.tc)
+                        .replace('{weather}', e[0].sky.name)
+                        .replace('{windsp}', e[0].wind.wspd + '(m/s)')
+                )
+            }
+        })
+    }
+
+    function prtCmd(){
+        $.each(commands, function(k, v){
+            $('#cmds').append(k + '<br/>')
+        });
+        $('#cmd').fadeIn();
+    }
+
+    function setDateTime(){
+        return new Date().toLocaleString();
+    }
+    if (annyang) {
+        // Let's define our first command. First the text we expect, and then the function it should call
+        var commands = {
+            '전원 오프': function(e) {
+                $('body').fadeOut();
+            },
+            '전원 온': function(e) {
+                $('body').fadeIn();
+            },
+            '뉴스 새로고침': function(e) {
+                news()
+            },
+            '부산 날씨': function(e) {
+                weather('부산')
+            },
+            '서울 날씨': function(e) {
+                weather('서울')
+            },
+            '날씨': function(e) {
+                weather()
+            },
+            '지도 오프': function(e) {
+                $('#maps').fadeOut();
+            },
+            '지도 온': function(e) {
+                $('#maps').fadeIn();
+            },
+            '라디오': function(e) {
+                window.open('mms://210.105.237.100/mbcam');
+            },
+            '명령어': function(e) {
+                prtCmd();
+            },
+            '명령어 오프': function(e) {
+                $('#cmd').fadeOut();
+            },
+        };
+
+        annyang.debug();
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening. You can call this here, or attach this call to an event, button, etc.
+        annyang.start();
+    }
+</script>
+
+</body>
+</html>

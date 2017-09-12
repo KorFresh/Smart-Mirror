@@ -1,0 +1,59 @@
+body{
+    background: #000;
+    color:#fff;
+}
+
+li{
+	list-style:none;
+}
+
+h1, h2{
+    text-align: center;
+}
+h3{
+    font-size:20px;
+    color:#FFBB00;
+}
+
+#timezone{
+    width:500px;
+    height:40px;
+    font-size:40px;
+    margin:30px auto;
+    text-align: center;
+    color:#fff;
+}
+
+table{
+    width:70%;
+    margin:70px auto;
+}
+tr{
+    height:300px;
+}
+td,th{
+    text-align: center;
+	max-width:200px;
+    width:50%;
+}
+td li{
+	margin:auto;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	word-wrap:normal;
+	overflow:hidden;
+}
+
+#map{
+	width:100%;
+	height:500px;
+	margin:auto;
+}
+
+#cmd{
+    display:none;
+}
+
+#now{
+	font-size:70px;
+}
