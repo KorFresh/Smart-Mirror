@@ -8,4 +8,8 @@
 ### 사용 JS-PlugIn
 + annyang.js
 
+#### 라즈베리파이 화면의 세로모드를 권장 합니다
+##### 세로모드 방법
++ /boot/config.txt 가장 아래 display_rotate=1 추가 후 재부팅
+
 by Korfresh (korfresh86@gmail.com)
