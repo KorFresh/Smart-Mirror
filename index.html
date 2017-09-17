@@ -16,7 +16,7 @@
     <div id="timezone"></div>
 
     <table>
-        <tr>
+        <tr class="line">
             <td id="news"><h3>뉴스</h3></td>
             <td id="weather"><h3>날씨</h3></td>
         </tr>
@@ -156,18 +156,24 @@
             },
             '지도 오프': function(e) {
                 $('#maps').fadeOut();
+                $('line').fadeIn();
             },
             '지도 온': function(e) {
+                $('#cmd').hide();
+                $('.line').fadeOut();
                 $('#maps').fadeIn();
             },
             '라디오': function(e) {
                 window.open('http://mini.imbc.com/webapp_v3/mini.html');
             },
             '명령어': function(e) {
+                $('.line').fadeOut();
+                $('#maps').hide();
                 prtCmd();
             },
             '명령어 오프': function(e) {
                 $('#cmd').fadeOut();
+                $('.line').fadeIn();
             },
         };
 

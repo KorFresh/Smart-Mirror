@@ -26,10 +26,11 @@ h3{
 
 table{
     width:70%;
-    margin:70px auto;
+    margin:90px auto;
 }
 tr{
     height:300px;
+    margin-top:20px;
 }
 td,th{
     text-align: center;
