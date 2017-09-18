@@ -10,7 +10,6 @@
 $url = "https://openapi.naver.com/v1/search/news.json?query=";
 $url.=urlencode('오늘');
 
-// 네이버 클라이언트키, 시크릿 키
 $header[] = "X-Naver-Client-Id:QdjhjVxtSjdhCw7i39f3";
 $header[] = "X-Naver-Client-Secret:JkNfopiOTf";
 $s = curl_init();
